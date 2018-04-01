@@ -1,0 +1,29 @@
+
+<header>
+  <h1>
+    {{title}}
+  </h1>
+</header>
+
+<main>
+  <form action="/" method="post">
+    <input type="text" name="event[id]" placeholder="insert event ID here">
+
+
+    <select>
+      {{#each eventGroup}}
+        <option>{{label}}</option>
+      {{/each}}
+    </select>
+
+    <select name="text"> 
+      {{#each eventGroup}}
+        <option>{{label}}</option>
+      {{/each}}
+    </select>
+
+    <button type="submit">Submit</button>  
+
+  </form>
+</main>
+
