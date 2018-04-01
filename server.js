@@ -21,8 +21,11 @@ app.post("/", function (request, response) {
   
   var EVENT_TO_COPY = request.body.event.id;
   
-  var FROM_MEETUP = EVENT_GROUP[0];
-  var TO_MEETUP = EVENT_GROUP[1];
+  const original = EVENT_GROUP.filter(event => event.label == request.body.original);
+  const copy = EVENT_GROUP.filter(event => event.label == request.body.copy);
+  
+  var FROM_MEETUP = original[0];
+  var TO_MEETUP = copy[0];
   
   meetup.getEvent({
     'urlname': FROM_MEETUP.name,
@@ -57,14 +60,21 @@ app.post("/", function (request, response) {
     
   }); // end of getting event data
   
-  response.sendFile(__dirname + '/views/index.html');
+  response.render('home', {
+    eventGroup: EVENT_GROUP,
+    title: 'Meetup Crosspost API',
+    message: 'We did it!'
+  });
 });
 
 
 // // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   // response.sendFile(__dirname + '/views/index.html');
-  response.render('home', { eventGroup: EVENT_GROUP, title: 'Meetup Crosspost API', message: 'Let’s do this!' });
+  response.render('home', {
+    eventGroup: EVENT_GROUP,
+    title: 'Meetup Crosspost API'
+  });
 });
 
 // listen for requests :)

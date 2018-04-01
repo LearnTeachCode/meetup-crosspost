@@ -6,24 +6,35 @@
 </header>
 
 <main>
+  <p>Test event id: 249219373</p>
+  
   <form action="/" method="post">
     <input type="text" name="event[id]" placeholder="insert event ID here">
 
-
-    <select>
-      {{#each eventGroup}}
-        <option>{{label}}</option>
-      {{/each}}
-    </select>
-
-    <select name="text"> 
-      {{#each eventGroup}}
-        <option>{{label}}</option>
-      {{/each}}
-    </select>
+    <label for="original">
+      Original
+      <select id="original" name="original">
+        {{#each eventGroup}}
+          <option>{{label}}</option>
+        {{/each}}
+      </select>
+    </label>
+    
+    <label for="copy">
+      Copy
+      <select id="copy" name="copy"> 
+        {{#each eventGroup}}
+          <option>{{label}}</option>
+        {{/each}}
+      </select>
+    </label>
 
     <button type="submit">Submit</button>  
 
   </form>
+  
+  <p>
+    {{message}}
+  </p>
 </main>
 
