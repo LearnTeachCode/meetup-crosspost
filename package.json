@@ -12,7 +12,8 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
-    "meetup-api": "^1.4.23"
+    "meetup-api": "^1.4.23",
+    "express-handlebars": "^3.0.0"
   },
   "engines": {
     "node": "8.x"

@@ -1,10 +1,7 @@
-// server.js
-// where your node app starts
-
-// init project
 var express = require('express');
 var bodyParser = require('body-parser');
-var config = require('./config.js');
+var EVENT_GROUP = require('./config.js');
+var exphbs  = require('express-handlebars');
 
 var app = express();
 
@@ -12,20 +9,26 @@ var meetup = require('meetup-api')({
 	key: process.env.API_KEY
 });
 
-console.dir(config);
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 app.post("/", function (request, response) {
   
   var EVENT_TO_COPY = request.body.event.id;
   
+  const original = EVENT_GROUP.filter(event => event.label == request.body.original);
+  const copy = EVENT_GROUP.filter(event => event.label == request.body.copy);
+  
+  var FROM_MEETUP = original[0];
+  var TO_MEETUP = copy[0];
+  
   meetup.getEvent({
-    'urlname': config.FROM_MEETUP.name,
+    'urlname': FROM_MEETUP.name,
     'id': EVENT_TO_COPY
   }, function(err, meetupResponse) {
     
@@ -34,13 +37,13 @@ app.post("/", function (request, response) {
     } else {
       console.log('got meetup info!');
       console.log(meetupResponse);
-    }
+    } 
   
     var newEventParams = {      
       'name': meetupResponse.name,
       'description': meetupResponse.description,
-      'group_id': config.TO_MEETUP.id,
-      'group_urlname': config.TO_MEETUP.name,
+      'group_id': TO_MEETUP.id,
+      'group_urlname': TO_MEETUP.name,
       'time': meetupResponse.time,      
       'venue_id': meetupResponse.venue.id,
       'announce': false,
@@ -57,17 +60,22 @@ app.post("/", function (request, response) {
     
   }); // end of getting event data
   
-  response.sendFile(__dirname + '/views/index.html');
+  response.render('home', {
+    eventGroup: EVENT_GROUP,
+    title: 'Meetup Crosspost API',
+    message: 'We did it!'
+  });
 });
+
 
 // // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
-  
-  
-  
-  response.sendFile(__dirname + '/views/index.html');
+  // response.sendFile(__dirname + '/views/index.html');
+  response.render('home', {
+    eventGroup: EVENT_GROUP,
+    title: 'Meetup Crosspost API'
+  });
 });
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
