@@ -2,8 +2,7 @@
 // where your node app starts
 
 // init project
-// hi Jim
-// Hi Thùy
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var config = require('./config.js');
@@ -14,13 +13,13 @@ var meetup = require('meetup-api')({
 	key: process.env.API_KEY
 });
 
-console.dir(config);
+// console.dir(config);
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 app.post("/", function (request, response) {
   
@@ -35,8 +34,8 @@ app.post("/", function (request, response) {
       console.log(err);
     } else {
       console.log('got meetup info!');
-      console.log(meetupResponse);
-    }
+      console.log("Meetup Response: " +meetupResponse);
+    } 
   
     var newEventParams = {      
       'name': meetupResponse.name,
