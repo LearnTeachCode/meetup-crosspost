@@ -12,7 +12,6 @@ var meetup = require('meetup-api')({
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,11 +53,12 @@ app.post("/", function (request, response) {
       if (creationError) {
         console.log(creationError);
       } else {
+        // TODO return URL of event object just created and providing link to event in Meetup.com        
         console.log(creationResponse);
       }
     });
     
-  }); // end of getting event data
+  });
   
   response.render('home', {
     eventGroup: EVENT_GROUP,
