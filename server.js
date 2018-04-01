@@ -2,6 +2,8 @@
 // where your node app starts
 
 // init project
+// hi Jim
+// Hi Thùy
 var express = require('express');
 var bodyParser = require('body-parser');
 var config = require('./config.js');
@@ -62,9 +64,6 @@ app.post("/", function (request, response) {
 
 // // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
-  
-  
-  
   response.sendFile(__dirname + '/views/index.html');
 });
 
